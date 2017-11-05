@@ -1,0 +1,10 @@
+extends ../layout.jade
+block contenido
+    div(class="col-md-5 center-block no-float top-space text-left")
+        h1 ¿Deseas eliminar ->  #[span= producto.nombre] <- ?
+        form(method= "POST" action="/pizzeria/#{producto.id}?_method=delete" style ="margin-top:1.5em;")
+            div(class="form-group text-right")
+                input(type="submit" class= "btn btn-info" value ="ELIMINAR")
+                = "   "
+                a(href = "/basedatos" id="cancel" name="cancel" class="btn btn-info") CANCELAR
+                

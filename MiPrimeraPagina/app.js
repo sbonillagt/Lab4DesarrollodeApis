@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var method_override = require('method-override')
 
 var app = express();
 
@@ -20,6 +21,7 @@ var promise = mongoose.connect('mongodb://localhost/primera', {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(method_override("_method"));
 
 //Definir el schema de nuestros productos
 var productosSchema =
@@ -60,11 +62,11 @@ app.get("/index", function(req,res){
 
 app.post("/pizzeria",function(req,res){
     var data ={
-        nombre: req.body.nombrepersona,
+        nombre: req.body.nombre,
         descripcion: req.body.descripcion,
         ingredientes: req.body.ingredientes,
         tipoMasa:req.body.tipoMasa,
-        tamano: req.body.tamano,
+        tamano: req.body.tamanoPizza,
         cantidad: req.body.cantidad,
         extraQueso: req.body.extraQueso
     }
@@ -95,6 +97,47 @@ app.get("/basedatos",function(req,res){
 		res.render("pizzeria/basedatos",{ products: documento })
 	});
 
+});
+
+app.get("/pizzeria/editar/:id",function(req,res){
+    var id_producto = req.params.id;
+
+    Product.findOne({"_id": id_producto},function(error,producto){
+        console.log(producto);
+        res.render("pizzeria/editar",{product: producto});
+
+    });
+});
+
+app.put("/pizzeria/:id", function(req,res){
+    var data ={
+        nombre: req.body.nombre,
+        descripcion: req.body.descripcion,
+        ingredientes: req.body.ingredientes,
+        tipoMasa:req.body.tipoMasa,
+        tamano: req.body.tamanoPizza,
+        cantidad: req.body.cantidad,
+        extraQueso: req.body.extraQueso
+    }
+    Product.update({"_id": req.params.id},data,function(product){
+        res.redirect("/basedatos");
+    });
+});
+
+app.get("/pizzeria/eliminar/:id", function(req,res){
+    var id = req.params.id;
+
+    Product.findOne({"_id":id},function(err,producto){
+        res.render("pizzeria/eliminar",{producto: producto});
+    });
+});
+
+app.delete("/pizzeria/:id", function(req,res){
+    var id = req.params.id;
+    Product.remove({"_id":id},function(err){
+        if(err){console.log(err)}
+        res.redirect("/basedatos");
+    });
 });
 
 app.listen(8080);
