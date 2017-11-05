@@ -1,0 +1,28 @@
+extends ../layout.jade
+block contenido
+    div(class="col-md-5 center-block no-float top-space text-left")
+        h1 Agregar Pizza
+        form(method= "POST" action="/pizzeria" style ="margin-top:1.5em;")
+            div(class="form-group")
+                label Nombre
+                input(type="text" name="nombrepersona" placeholder="Ingrese nombre" class="form-control")
+            div(class="form-group")
+                label Descripción
+                input(type="text" name="descripcion" placeholder="Descripción" class="form-control")
+            div(class="form-group")
+                label Ingredientes
+                input(type="text" name="ingredientes" placeholder="Ingredientes" class="form-control")
+            div(class="form-group")
+                label Tipo de Masa
+                input(type="text" name="tipoMasa" placeholder="Tipo de Masa" class="form-control")
+            div(class="form-group")
+                label Tamaño de Pizza
+                input(type="text" name="tamanoPizza" placeholder="Personal, Mediana, Grande, Extra Grande" class="form-control")
+            div(class="form-group")
+                label Cantidad
+                input(type="number" name="cantidad" placeholder="10" class="form-control")
+            div(class="form-group")
+                label Extra Queso
+                input(type="text" name="extraQueso" placeholder="Si/No" class="form-control")
+            div(class="form-group text-right")
+                input(type="submit" class= "btn btn-info" value ="Guardar")

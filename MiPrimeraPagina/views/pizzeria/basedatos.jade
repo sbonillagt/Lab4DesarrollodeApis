@@ -1,0 +1,26 @@
+extends ../layout.jade
+block contenido
+    h1 Panel tipo de Pizzas
+    table(class = 'table')
+        caption Productos Actuales
+        thead
+            tr
+                th Nombre
+                th Descripcion
+                th Ingredientes
+                th Tipo de Masa
+                th Tamaño
+                th Cantidad
+                th Extra Queso
+                th Acciones
+        tbody
+            each product in products
+                tr    
+                    td #{product.nombre}
+                    td #{product.descripcion}
+                    td #{product.ingredientes}
+                    td #{product.tipoMasa}
+                    td #{product.tamano}
+                    td #{product.cantidad}
+                    td #{product.extraQueso}
+                    td Editar - eliminar
