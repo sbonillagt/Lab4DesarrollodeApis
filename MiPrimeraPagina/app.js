@@ -2,18 +2,20 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var method_override = require('method-override')
+//var jwt = require('jwt-simple');
+
+//----SEGUNDA OPCION JWT
+//var payload = { foo: 'bar' };
+var payload = { 
+    PrimerEstudiante: 'Sebastian Bonilla 2001516',
+    SegundoEstudiante: 'Harry Caballeros '
+};
+var jwt = require('jsonwebtoken');
 
 var app = express();
 
-//mongoose.connect('mongodb://localhost/primera');
-
-//mongoose.connect('mongodb://localhost/primera', {
-//    useMongoClient: true,
-//    /* other options */
-//  });
 mongoose.Promise = global.Promise;
 var promise = mongoose.connect('mongodb://localhost/primera', {
-    
     useMongoClient: true,
     /* other options */ 
   });
@@ -39,27 +41,11 @@ var Product = mongoose.model("Product", productosSchema);
 
 app.set("view engine","jade");
 app.use(express.static("public"));
-
-app.get("/index", function(req,res){
-    /*
-    var data ={
-        nombre: "Mi Primera pizza",
-        descripcion: "la primera",
-        ingredientes: "Tomate",
-        tipoMasa:"gorda",
-        tamano: "mediana",
-        cantidad: 10,
-        extraQueso: "NO"
-    }
-    var product = new Product(data);
-
-    product.save(function(err){
-        console.log(product);
-    });
-    */
+//--------------------------------------------INDEX------------------------------------------------
+app.get("/", function(req,res){
     res.render("index");
 });
-
+//--------------------------------------------Pizzeria------------------------------------------------
 app.post("/pizzeria",function(req,res){
     var data ={
         nombre: req.body.nombre,
@@ -77,18 +63,11 @@ app.post("/pizzeria",function(req,res){
         console.log(product);
         res.render("pizzeria/nuevo")
     });
-
 });
 
 app.get("/nuevo",function(req,res){
     res.render("pizzeria/nuevo")
 });
-
-/*
-app.get("/pizzeria/basedatos",function(req,res){
-    res.render("pizzeria/basedatos")
-});
-*/
 
 app.get("/basedatos",function(req,res){
 
@@ -138,6 +117,34 @@ app.delete("/pizzeria/:id", function(req,res){
         if(err){console.log(err)}
         res.redirect("/basedatos");
     });
+});
+
+//--------------------------------------------CIFRADO------------------------------------------------
+app.get("/json",function(req,res){
+    res.render("cifrado/json")
+});
+
+app.post("/json",function(req,res){
+    var data ={
+        palabraSecreta: req.body.palabraSecreta
+    }
+    var secret = req.body.palabraSecreta;
+    //------Primera opcion jwt-simple
+    //var token = jwt.encode(payload, secret);
+    console.log(data);
+    console.log(secret);
+    //console.log(token);
+
+    //var decoded = jwt.decode(token, secret);
+    //console.log(decoded);
+
+    //-------SEGUNDA OPCION JWT JWTWEBTOKEN
+    var token = jwt.sign(payload,secret);
+    console.log(token);
+
+
+    res.render("cifrado/tokenJWT",{token});
+    //res.render("pizzeria/eliminar",{producto: producto});
 });
 
 app.listen(8080);

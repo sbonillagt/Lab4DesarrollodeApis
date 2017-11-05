@@ -1,6 +1,6 @@
 extends ../layout.jade
 block contenido
-    h1 Panel tipo de Pizzas
+    h1 Productos Disponibles de Pizzas
     table(class = 'table')
         caption Productos Actuales
         thead
@@ -24,6 +24,6 @@ block contenido
                     td #{product.cantidad}
                     td #{product.extraQueso}
                     td 
-                        a(href = "/pizzeria/editar/#{product.id}") Editar
-                        = "-"
-                        a(href = "/pizzeria/eliminar/#{product.id}") Eliminar
+                        a(href = "/pizzeria/editar/#{product.id}" class="btn btn-info") Editar
+                        = "     "
+                        a(href = "/pizzeria/eliminar/#{product.id}" class="btn btn-danger") Eliminar
