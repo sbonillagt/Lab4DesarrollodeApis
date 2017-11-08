@@ -8,7 +8,7 @@ var method_override = require('method-override')
 //var payload = { foo: 'bar' };
 var payload = { 
     PrimerEstudiante: 'Sebastian Bonilla 2001516',
-    SegundoEstudiante: 'Harry Caballeros '
+    SegundoEstudiante: 'Harry Caballeros 1079316 '
 };
 var jwt = require('jsonwebtoken');
 
@@ -43,7 +43,7 @@ app.set("view engine","jade");
 app.use(express.static("public"));
 //--------------------------------------------INDEX------------------------------------------------
 app.get("/", function(req,res){
-    res.render("index");
+    res.status(200).render("index");
 });
 //--------------------------------------------Pizzeria------------------------------------------------
 app.post("/pizzeria",function(req,res){
@@ -66,14 +66,14 @@ app.post("/pizzeria",function(req,res){
 });
 
 app.get("/nuevo",function(req,res){
-    res.render("pizzeria/nuevo")
+    res.status(200).render("pizzeria/nuevo")
 });
 
 app.get("/basedatos",function(req,res){
 
     Product.find(function(error,documento){
 		if(error){ console.log(error); }
-		res.render("pizzeria/basedatos",{ products: documento })
+		res.status(200).render("pizzeria/basedatos",{ products: documento })
 	});
 
 });
@@ -83,7 +83,7 @@ app.get("/pizzeria/editar/:id",function(req,res){
 
     Product.findOne({"_id": id_producto},function(error,producto){
         console.log(producto);
-        res.render("pizzeria/editar",{product: producto});
+        res.status(200).render("pizzeria/editar",{product: producto});
 
     });
 });
@@ -99,7 +99,7 @@ app.put("/pizzeria/:id", function(req,res){
         extraQueso: req.body.extraQueso
     }
     Product.update({"_id": req.params.id},data,function(product){
-        res.redirect("/basedatos");
+        res.status(200).redirect("/basedatos");
     });
 });
 
@@ -107,21 +107,24 @@ app.get("/pizzeria/eliminar/:id", function(req,res){
     var id = req.params.id;
 
     Product.findOne({"_id":id},function(err,producto){
-        res.render("pizzeria/eliminar",{producto: producto});
+        res.status(200).render("pizzeria/eliminar",{producto: producto});
     });
 });
 
 app.delete("/pizzeria/:id", function(req,res){
     var id = req.params.id;
     Product.remove({"_id":id},function(err){
-        if(err){console.log(err)}
-        res.redirect("/basedatos");
+        if(err){
+            console.log(err)
+            res.status(204).redirect("/basedatos");
+        }
+        res.status(200).redirect("/basedatos");
     });
 });
 
 //--------------------------------------------CIFRADO------------------------------------------------
 app.get("/json",function(req,res){
-    res.render("cifrado/json")
+    res.status(200).render("cifrado/json")
 });
 
 app.post("/json",function(req,res){
@@ -143,8 +146,12 @@ app.post("/json",function(req,res){
     console.log(token);
 
 
-    res.render("cifrado/tokenJWT",{token});
+    res.status(201).render("cifrado/tokenJWT",{token});
     //res.render("pizzeria/eliminar",{producto: producto});
+});
+
+app.get("*",function(req,res){
+    res.status(404).render("cifrado/err")
 });
 
 app.listen(8080);

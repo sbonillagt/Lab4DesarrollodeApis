@@ -17,12 +17,22 @@ block contenido
                 input(type="text" name="tipoMasa" placeholder="Tipo de Masa" class="form-control")
             div(class="form-group")
                 label Tamaño de Pizza
-                input(type="text" name="tamanoPizza" placeholder="Personal, Mediana, Grande, Extra Grande" class="form-control")
+                br 
+                input(type="radio" id="tamanoPizza1" name="tamanoPizza" value="Personal" checked>Personal<)
+                br 
+                input(type="radio" id="tamanoPizza2" name="tamanoPizza" value="Mediana" checked>Mediana<)
+                br 
+                input(type="radio" id="tamanoPizza3" name="tamanoPizza" value="Grande" checked>Grande<)
+                br 
+                input(type="radio" id="tamanoPizza4" name="tamanoPizza" value="Extra Grande" checked>Extra Grande<)
             div(class="form-group")
                 label Cantidad
                 input(type="number" name="cantidad" placeholder="10" class="form-control")
             div(class="form-group")
                 label Extra Queso
-                input(type="text" name="extraQueso" placeholder="Si/No" class="form-control")
+                br
+                input(type="radio" id="siExtraQueso" name="extraQueso" value="SI" checked>SI<)
+                br 
+                input(type="radio" id="noExtraQueso" name="extraQueso" value="NO" checked>NO<)
             div(class="form-group text-right")
                 input(type="submit" class= "btn btn-info" value ="Guardar")
